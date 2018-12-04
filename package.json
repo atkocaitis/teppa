@@ -1,0 +1,35 @@
+{
+  "scripts": {
+    "test": "mocha --timeout 60000 examples/test.js"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "xml2js": "^0.4.19"
+  },
+  "name": "teppa",
+  "description": "SOAP API testing framework",
+  "version": "1.0.0",
+  "main": "./lib/teppa.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atkocaitis/teppa.git"
+  },
+  "keywords": [
+    "soap",
+    "api",
+    "test",
+    "automation"
+  ],
+  "author": "Algirdas Atkocaitis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atkocaitis/teppa/issues"
+  },
+  "homepage": "https://github.com/atkocaitis/teppa#readme"
+}
