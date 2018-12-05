@@ -10,7 +10,7 @@
   },
   "name": "teppa",
   "description": "SOAP API testing framework",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "./lib/teppa.js",
   "directories": {
     "example": "examples",
