@@ -1,13 +1,52 @@
 # Teppa
-SOAP API testing framework
+SOAP API test automation framework
+
+[![NPM](https://nodei.co/npm/teppa.png)](https://nodei.co/npm/teppa/)
 
 ## Introduction
 
-Teppa is simple SOAP API testing framework.
+Teppa is simple SOAP API testing framework build using mocha and chai
+
+## Installation
+
+Get Teppa framework as dependency to your project
+
+    npm i teppa -D
+
+Add mocha to scripts as test to package.json
+
+```javascript
+{
+  "name": "my-awesome-package",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "teppa": "^1.0.0"
+  }
+}
+```
+
+## Running
+
+To run test use
+
+    npm test
+
+To run specific test file you can use
+
+    npm test your_test.js
+
+For more configuration options use https://mochajs.org
+
+Tip: to avoid timeout issue increase default mocha timeout: "test": "mocha --timeout 60000"
 
 ## Creating Tests
 
-Loading SOAP request from external file.
+(All examples can be found in https://github.com/atkocaitis/teppa/tree/master/examples)
+
+Loading SOAP request from external file
 
 ```javascript
 const	test = require('teppa'),
@@ -28,7 +67,7 @@ it("Loading request from file", function() {
 });
 ```
 
-Updating SOAP request after load.
+Updating SOAP request after load
 
 ```javascript
 it("Updating request after load", function() {
@@ -44,7 +83,7 @@ it("Updating request after load", function() {
 });
 ```
 
-Loading expected SOAP response for assertion from file.
+Loading expected SOAP response for assertion from file
 
 ```javascript
 it("Loading expected response from file", function() {
