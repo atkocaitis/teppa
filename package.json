@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "mocha --timeout 60000 examples/test.js"
+    "test": "mocha"
   },
   "dependencies": {
     "axios": "^0.18.0",
