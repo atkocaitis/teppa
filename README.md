@@ -11,8 +11,6 @@ Loading SOAP request from external file.
 
 ```javascript
 const	test = require('teppa'),
-		expect = require('chai').expect,
-		path = __dirname,
 		config = {
 			url: 'http://www.dneonline.com/calculator.asmx',
 			headers: { 'Content-Type': 'application/soap+xml'}
@@ -21,10 +19,10 @@ const	test = require('teppa'),
 it("Loading request from file", function() {
 
 	return test
-		.loadRequest(path + '/xml/request.xml')
+		.loadRequest('./examples/xml/request.xml')
 		.post(config)
 		.then(function(response) {
-			expect(response.body).to.include('<AddResult>2</AddResult>');
+			test.expect(response.body).to.include('<AddResult>2</AddResult>');
 		});
 
 });
@@ -36,11 +34,11 @@ Updating SOAP request after load.
 it("Updating request after load", function() {
 
 	return test
-		.loadRequest(path + '/xml/request.xml')
+		.loadRequest('./examples/xml/request.xml')
 		.updateRequest('tem:Add',  `<tem:Add><tem:intA>2</tem:intA><tem:intB>2</tem:intB></tem:Add>`)
 		.post(config)
 		.then(function(response) {
-			expect(response.body).to.include('<AddResult>4</AddResult>');
+			test.expect(response.body).to.include('<AddResult>4</AddResult>');
 		});
 
 });
@@ -52,11 +50,11 @@ Loading expected SOAP response for assertion from file.
 it("Loading expected response from file", function() {
 
 	return test
-		.loadRequest(path + '/xml/request.xml')
+		.loadRequest('./examples/xml/request.xml')
 		.updateRequest('tem:intA', `<tem:intA>2</tem:intA>`)
 		.post(config)
 		.then(function(response) {
-			expect(response.bodyJs).to.deep.equal(test.loadXMLtoJs(path + '/xml/response.xml'));
+			test.expect(response.bodyJs).to.deep.equal(test.loadXMLtoJs('./examples/xml/response.xml'));
 		});
 
 });
