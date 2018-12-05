@@ -1,5 +1,4 @@
 const	test = require('../lib/teppa.js'),
-		expect = require('chai').expect,
 		path = __dirname,
 		config = {
 			url: 'http://www.dneonline.com/calculator.asmx',
@@ -14,7 +13,7 @@ describe("Calculator tests examples", function() {
 			.loadRequest(path + '/xml/request.xml')
 			.post(config)
 			.then(function(response) {
-				expect(response.body).to.include('<AddResult>2</AddResult>');
+				test.expect(response.body).to.include('<AddResult>2</AddResult>');
 			});
 
 	});
@@ -29,7 +28,7 @@ describe("Calculator tests examples", function() {
 										</tem:Add>`)
 			.post(config)
 			.then(function(response) {
-				expect(response.body).to.include('<AddResult>4</AddResult>');
+				test.expect(response.body).to.include('<AddResult>4</AddResult>');
 			});
 
 	});
@@ -41,7 +40,7 @@ describe("Calculator tests examples", function() {
 			.updateRequest('tem:intA', `<tem:intA>2</tem:intA>`)
 			.post(config)
 			.then(function(response) {
-				expect(response.bodyJs).to.deep.equal(test.loadXMLtoJs(path + '/xml/response.xml'));
+				test.expect(response.bodyJs).to.deep.equal(test.loadXMLtoJs(path + '/xml/response.xml'));
 			});
 
 	});
