@@ -23,7 +23,7 @@ Add mocha to scripts as test to package.json
     "test": "mocha"
   },
   "devDependencies": {
-    "teppa": "^1.0.0"
+    "teppa": "^1.2.0"
   }
 }
 ```
@@ -46,20 +46,27 @@ Tip: to avoid timeout issue increase default mocha timeout: "test": "mocha --tim
 
 (All examples can be found in https://github.com/atkocaitis/teppa/tree/master/examples)
 
-Loading SOAP request from external file
+First you need to load teppa and set some test configuration. Example of online Soap API calculator:
 
 ```javascript
-const	test = require('teppa'),
-		config = {
-			url: 'http://www.dneonline.com/calculator.asmx',
-			headers: { 'Content-Type': 'application/soap+xml'}
-		};
+const	test = require('teppa');
 
+test.setGlobalSetup({
+	url: 'http://www.dneonline.com/calculator.asmx',
+	headers: { 'Content-Type': 'application/soap+xml'},
+	requestPath: './examples/xml/request/',
+	responsePath: './examples/xml/response/'
+});
+```
+
+In first test step you need to load request xml file (file path is set in GlobalSetup). This file will be used as body for your Post request. After loading request you need to initiate post function and add response assertion (by default Teppa includes Chai assertion library):
+
+```javascript
 it("Loading request from file", function() {
 
 	return test
-		.loadRequest('./examples/xml/request.xml')
-		.post(config)
+		.loadRequest('calculatorRequest.xml')
+		.post()
 		.then(function(response) {
 			test.expect(response.body).to.include('<AddResult>2</AddResult>');
 		});
@@ -67,15 +74,17 @@ it("Loading request from file", function() {
 });
 ```
 
-Updating SOAP request after load
+After you have load request xml file you can update part of request using updateRequest function:
 
 ```javascript
 it("Updating request after load", function() {
 
 	return test
-		.loadRequest('./examples/xml/request.xml')
-		.updateRequest('tem:Add',  `<tem:Add><tem:intA>2</tem:intA><tem:intB>2</tem:intB></tem:Add>`)
-		.post(config)
+		.updateRequest('tem:Add',  `<tem:Add>
+										<tem:intA>2</tem:intA>
+										<tem:intB>2</tem:intB>
+									</tem:Add>`)
+		.post()
 		.then(function(response) {
 			test.expect(response.body).to.include('<AddResult>4</AddResult>');
 		});
@@ -83,17 +92,16 @@ it("Updating request after load", function() {
 });
 ```
 
-Loading expected SOAP response for assertion from file
+To use external xml file for response assertion you can use loadResponseToJs function which will load response xml file and it will convert it to javascript object for better comparison (to get actual response body as javascript object use response.bodyJs):
 
 ```javascript
 it("Loading expected response from file", function() {
 
 	return test
-		.loadRequest('./examples/xml/request.xml')
-		.updateRequest('tem:intA', `<tem:intA>2</tem:intA>`)
-		.post(config)
+		.updateRequest('tem:intA', `<tem:intA>1</tem:intA>`)
+		.post()
 		.then(function(response) {
-			test.expect(response.bodyJs).to.deep.equal(test.loadXMLtoJs('./examples/xml/response.xml'));
+			test.expect(response.bodyJs).to.deep.equal(test.loadResponseToJs('calculatorResponse.xml'));
 		});
 
 });

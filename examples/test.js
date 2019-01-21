@@ -1,16 +1,19 @@
-const	test = require('../lib/teppa.js'),
-		config = {
-			url: 'http://www.dneonline.com/calculator.asmx',
-			headers: { 'Content-Type': 'application/soap+xml'}
-		};
+const	test = require('../lib/teppa.js');
+
+test.setGlobalSetup({
+	url: 'http://www.dneonline.com/calculator.asmx',
+	headers: { 'Content-Type': 'application/soap+xml'},
+	requestPath: './examples/xml/request/',
+	responsePath: './examples/xml/response/'
+});
 
 describe("Calculator tests examples", function() {
 
 	it("Loading request from file", function() {
 
 		return test
-			.loadRequest('./examples/xml/request.xml')
-			.post(config)
+			.loadRequest('calculatorRequest.xml')
+			.post()
 			.then(function(response) {
 				test.expect(response.body).to.include('<AddResult>2</AddResult>');
 			});
@@ -20,12 +23,11 @@ describe("Calculator tests examples", function() {
 	it("Updating request after load", function() {
 
 		return test
-			.loadRequest('./examples/xml/request.xml')
 			.updateRequest('tem:Add',  `<tem:Add>
 											<tem:intA>2</tem:intA>
 											<tem:intB>2</tem:intB>
 										</tem:Add>`)
-			.post(config)
+			.post()
 			.then(function(response) {
 				test.expect(response.body).to.include('<AddResult>4</AddResult>');
 			});
@@ -35,11 +37,10 @@ describe("Calculator tests examples", function() {
 	it("Loading expected response from file", function() {
 
 		return test
-			.loadRequest('./examples/xml/request.xml')
-			.updateRequest('tem:intA', `<tem:intA>2</tem:intA>`)
-			.post(config)
+			.updateRequest('tem:intA', `<tem:intA>1</tem:intA>`)
+			.post()
 			.then(function(response) {
-				test.expect(response.bodyJs).to.deep.equal(test.loadXMLtoJs('./examples/xml/response.xml'));
+				test.expect(response.bodyJs).to.deep.equal(test.loadResponseToJs('calculatorResponse.xml'));
 			});
 
 	});
