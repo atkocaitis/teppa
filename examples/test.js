@@ -4,7 +4,8 @@ test.setGlobalSetup({
 	url: 'http://www.dneonline.com/calculator.asmx',
 	headers: { 'Content-Type': 'application/soap+xml'},
 	requestPath: './examples/xml/request/',
-	responsePath: './examples/xml/response/'
+	responsePath: './examples/xml/response/',
+	log: false
 });
 
 describe("Calculator tests examples", function() {
